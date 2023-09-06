@@ -1,0 +1,22 @@
+# 只有push到main branch上才不会触发job
+Hello-World-except-main:
+  name: Hello-World-except-main
+  agent:
+    type: Unity::VM
+    image: cds-ops/windows-msvc:stable
+    flavor: b1.xlarge
+  commands:
+    - cd HelloWorld & HelloWorld.exe
+  artifacts:
+    build:
+      paths:
+      - Debug\**
+    logs:
+      paths:
+      - HelloWorld\**
+  triggers:
+    branches:
+      only:
+      - "/.*/"
+      except:
+      - "main"
